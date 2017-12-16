@@ -1,11 +1,16 @@
 package model;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.Iterator;
+
+import static java.lang.Float.parseFloat;
+import static java.lang.Integer.parseInt;
 
 public class UserVisit {
     private String sourceIp;
     private String destinationUrl;
-    private Date visitDate;
+    private String visitDate;
     private double adRevenue;
     private String userAgent;
     private String countryCode;
@@ -16,7 +21,7 @@ public class UserVisit {
     public UserVisit() {
     }
 
-    public UserVisit(String sourceIp, String destinationUrl, Date visitDate, double adRevenue, String userAgent,
+    public UserVisit(String sourceIp, String destinationUrl, String visitDate, double adRevenue, String userAgent,
                      String countryCode, String languageCode, String searchWord, int duration) {
         this.sourceIp = sourceIp;
         this.destinationUrl = destinationUrl;
@@ -45,11 +50,11 @@ public class UserVisit {
         this.destinationUrl = destinationUrl;
     }
 
-    public Date getVisitDate() {
+    public String getVisitDate() {
         return visitDate;
     }
 
-    public void setVisitDate(Date visitDate) {
+    public void setVisitDate(String visitDate) {
         this.visitDate = visitDate;
     }
 
@@ -99,5 +104,21 @@ public class UserVisit {
 
     public void setDuration(int duration) {
         this.duration = duration;
+    }
+
+    public static UserVisit toUserVisit(String record) {
+        Iterator<String> values = Arrays.asList(record.split(",")).iterator();
+
+        return new UserVisit(
+                values.next(),
+                values.next(),
+                values.next(),
+                parseFloat(values.next()),
+                values.next(),
+                values.next(),
+                values.next(),
+                values.next(),
+                parseInt(values.next())
+        );
     }
 }
