@@ -7,14 +7,13 @@ import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
-import org.apache.kafka.common.serialization.StringSerializer;
+import org.apache.kafka.common.serialization.StringDeserializer;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Properties;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
-
 
 public class ConsumerApp {
     public static void main(String[] args){
@@ -31,19 +30,19 @@ public class ConsumerApp {
                     .map(ConsumerRecord::value)
                     .map(UserVisit::toUserVisit)
                     .forEach(userVisitMapper::save);
-
         }
     }
 
     private static Consumer<String, String> initConsumer(){
         Properties props = new Properties();
         props.put("bootstrap.servers", "localhost:9092");
-        props.put("key.serializer", StringSerializer.class);
-        props.put("value.serializer", StringSerializer.class);
+        props.put("group.id", "first");
+        props.put("key.deserializer", StringDeserializer.class.getName());
+        props.put("value.deserializer", StringDeserializer.class.getName());
 
         KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props);
 
-        consumer.subscribe(Collections.singletonList("uservisits"));
+        consumer.subscribe(Collections.singletonList("uservisits1"));
         return consumer;
     }
 

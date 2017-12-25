@@ -1,17 +1,20 @@
 package model;
 
+import com.datastax.driver.mapping.annotations.Table;
+
 import java.util.Arrays;
-import java.util.Date;
 import java.util.Iterator;
 
 import static java.lang.Float.parseFloat;
 import static java.lang.Integer.parseInt;
 
+@Table(keyspace = "user_stats", name = "user_visits")
 public class UserVisit {
+
     private String sourceIp;
-    private String destinationUrl;
+    private String destURL;
     private String visitDate;
-    private double adRevenue;
+    private float adRevenue;
     private String userAgent;
     private String countryCode;
     private String languageCode;
@@ -21,10 +24,10 @@ public class UserVisit {
     public UserVisit() {
     }
 
-    public UserVisit(String sourceIp, String destinationUrl, String visitDate, double adRevenue, String userAgent,
+    public UserVisit(String sourceIp, String destinationUrl, String visitDate, float adRevenue, String userAgent,
                      String countryCode, String languageCode, String searchWord, int duration) {
         this.sourceIp = sourceIp;
-        this.destinationUrl = destinationUrl;
+        this.destURL = destinationUrl;
         this.visitDate = visitDate;
         this.adRevenue = adRevenue;
         this.userAgent = userAgent;
@@ -42,12 +45,12 @@ public class UserVisit {
         this.sourceIp = sourceIp;
     }
 
-    public String getDestinationUrl() {
-        return destinationUrl;
+    public String getDestURL() {
+        return destURL;
     }
 
-    public void setDestinationUrl(String destinationUrl) {
-        this.destinationUrl = destinationUrl;
+    public void setDestURL(String destinationUrl) {
+        this.destURL = destinationUrl;
     }
 
     public String getVisitDate() {
@@ -58,11 +61,11 @@ public class UserVisit {
         this.visitDate = visitDate;
     }
 
-    public double getAdRevenue() {
+    public float getAdRevenue() {
         return adRevenue;
     }
 
-    public void setAdRevenue(double adRevenue) {
+    public void setAdRevenue(float adRevenue) {
         this.adRevenue = adRevenue;
     }
 

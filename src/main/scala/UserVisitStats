@@ -1,0 +1,33 @@
+import org.apache.spark._
+import org.apache.spark.streaming._
+import com.datastax.spark.connector.streaming._
+import org.apache.spark.rdd._
+import scala.collection.mutable.Queue
+
+
+object UserVisitStats {
+  def main(args: Array[String]){
+    val conf = new SparkConf().setAppName("top_10_popular_countries_from_user_visits")
+      .set("spark.cassandra.connection.host", "127.0.0.1")
+
+    val ssc = new StreamingContext(conf, Seconds(10))
+
+    val rdd = ssc.cassandraTable("user_stats", "user_visits")//.select("countrycode")
+
+    val cdrs = sqlC.createDataFrame(seqToCdr(rdd))
+    cdrs.groupBy("countrycode").sum("countrycode").orderBy(desc("SUM(countrycode)"))
+
+    //rdd.collect().foreach(println)
+
+    val rddQueue = new Queue[RDD[com.datastax.spark.connector.CassandraRow]]()
+
+
+    val dstream = ssc.queueStream(rddQueue)
+
+    dstream.print()
+
+    ssc.start()
+    cdrs.collect().foreach(println)
+    rddQueue += cdrs
+    ssc.awaitTermination()
+  }
