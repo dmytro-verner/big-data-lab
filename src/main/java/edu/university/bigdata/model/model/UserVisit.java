@@ -1,4 +1,4 @@
-package model;
+package edu.university.bigdata.model.model;
 
 import com.datastax.driver.mapping.annotations.Table;
 
