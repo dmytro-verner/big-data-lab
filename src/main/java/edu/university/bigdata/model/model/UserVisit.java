@@ -2,111 +2,135 @@ package edu.university.bigdata.model.model;
 
 import com.datastax.driver.mapping.annotations.Table;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.Objects;
 
 import static java.lang.Float.parseFloat;
 import static java.lang.Integer.parseInt;
 
 @Table(keyspace = "user_stats", name = "user_visits")
-public class UserVisit {
+public class UserVisit implements Serializable {
 
-    private String sourceIp;
-    private String destURL;
-    private String visitDate;
-    private float adRevenue;
-    private String userAgent;
-    private String countryCode;
-    private String languageCode;
-    private String searchWord;
-    private int duration;
+    private String sourceip;
+    private String desturl;
+    private String visitdate;
+    private Float adrevenue;
+    private String useragent;
+    private String countrycode;
+    private String languagecode;
+    private String searchword;
+    private Integer duration;
 
     public UserVisit() {
     }
 
-    public UserVisit(String sourceIp, String destinationUrl, String visitDate, float adRevenue, String userAgent,
-                     String countryCode, String languageCode, String searchWord, int duration) {
-        this.sourceIp = sourceIp;
-        this.destURL = destinationUrl;
-        this.visitDate = visitDate;
-        this.adRevenue = adRevenue;
-        this.userAgent = userAgent;
-        this.countryCode = countryCode;
-        this.languageCode = languageCode;
-        this.searchWord = searchWord;
+    public UserVisit(String sourceip, String desturl, String visitdate, float adrevenue, String useragent,
+                     String countrycode, String languagecode, String searchword, int duration) {
+        this.sourceip = sourceip;
+        this.desturl = desturl;
+        this.visitdate = visitdate;
+        this.adrevenue = adrevenue;
+        this.useragent = useragent;
+        this.countrycode = countrycode;
+        this.languagecode = languagecode;
+        this.searchword = searchword;
         this.duration = duration;
     }
 
-    public String getSourceIp() {
-        return sourceIp;
+    public String getSourceip() {
+        return sourceip;
     }
 
-    public void setSourceIp(String sourceIp) {
-        this.sourceIp = sourceIp;
+    public void setSourceip(String sourceip) {
+        this.sourceip = sourceip;
     }
 
-    public String getDestURL() {
-        return destURL;
+    public String getDesturl() {
+        return desturl;
     }
 
-    public void setDestURL(String destinationUrl) {
-        this.destURL = destinationUrl;
+    public void setDesturl(String destinationUrl) {
+        this.desturl = destinationUrl;
     }
 
-    public String getVisitDate() {
-        return visitDate;
+    public String getVisitdate() {
+        return visitdate;
     }
 
-    public void setVisitDate(String visitDate) {
-        this.visitDate = visitDate;
+    public void setVisitdate(String visitdate) {
+        this.visitdate = visitdate;
     }
 
-    public float getAdRevenue() {
-        return adRevenue;
+    public Float getAdrevenue() {
+        return adrevenue;
     }
 
-    public void setAdRevenue(float adRevenue) {
-        this.adRevenue = adRevenue;
+    public void setAdrevenue(Float adrevenue) {
+        this.adrevenue = adrevenue;
     }
 
-    public String getUserAgent() {
-        return userAgent;
+    public String getUseragent() {
+        return useragent;
     }
 
-    public void setUserAgent(String userAgent) {
-        this.userAgent = userAgent;
+    public void setUseragent(String useragent) {
+        this.useragent = useragent;
     }
 
-    public String getCountryCode() {
-        return countryCode;
+    public String getCountrycode() {
+        return countrycode;
     }
 
-    public void setCountryCode(String countryCode) {
-        this.countryCode = countryCode;
+    public void setCountrycode(String countrycode) {
+        this.countrycode = countrycode;
     }
 
-    public String getLanguageCode() {
-        return languageCode;
+    public String getLanguagecode() {
+        return languagecode;
     }
 
-    public void setLanguageCode(String languageCode) {
-        this.languageCode = languageCode;
+    public void setLanguagecode(String languagecode) {
+        this.languagecode = languagecode;
     }
 
-    public String getSearchWord() {
-        return searchWord;
+    public String getSearchword() {
+        return searchword;
     }
 
-    public void setSearchWord(String searchWord) {
-        this.searchWord = searchWord;
+    public void setSearchword(String searchword) {
+        this.searchword = searchword;
     }
 
-    public int getDuration() {
+    public Integer getDuration() {
         return duration;
     }
 
-    public void setDuration(int duration) {
+    public void setDuration(Integer duration) {
         this.duration = duration;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserVisit userVisit = (UserVisit) o;
+        return Objects.equals(sourceip, userVisit.sourceip) &&
+                Objects.equals(desturl, userVisit.desturl) &&
+                Objects.equals(visitdate, userVisit.visitdate) &&
+                Objects.equals(adrevenue, userVisit.adrevenue) &&
+                Objects.equals(useragent, userVisit.useragent) &&
+                Objects.equals(countrycode, userVisit.countrycode) &&
+                Objects.equals(languagecode, userVisit.languagecode) &&
+                Objects.equals(searchword, userVisit.searchword) &&
+                Objects.equals(duration, userVisit.duration);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(sourceip, desturl, visitdate, adrevenue, useragent, countrycode, languagecode, searchword, duration);
     }
 
     public static UserVisit toUserVisit(String record) {

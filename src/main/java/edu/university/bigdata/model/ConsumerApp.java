@@ -44,7 +44,7 @@ public class ConsumerApp {
 
         KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props);
 
-        consumer.subscribe(Collections.singletonList("uservisits1"));
+        consumer.subscribe(Collections.singletonList("user_visits_1"));
         return consumer;
     }
 

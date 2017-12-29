@@ -13,14 +13,16 @@ import static com.datastax.spark.connector.japi.CassandraJavaUtil.mapRowTo;
 
 public class UserVisitsStatSparkJob {
 
-    public void main(String[] args) {
+    public static void main(String[] args) {
         SparkSession sparkSession = initSparkSession();
         Dataset<Row> dataFrame = getDataFrame(sparkSession);
-        getTopTenPopularCountries(sparkSession, dataFrame);
+        Dataset<Row> topTenPopularCountries = getTopTenPopularCountries(sparkSession, dataFrame);
+
+        topTenPopularCountries.show();
     }
 
-    private Dataset<Row> getTopTenPopularCountries(SparkSession sparkSession, Dataset<Row> dataFrame) {
-        String query = "SELECT countrycode as country, COUNT(sourceIP) AS visits " +
+    private static Dataset<Row> getTopTenPopularCountries(SparkSession sparkSession, Dataset<Row> dataFrame) {
+        String query = "SELECT countrycode AS country, COUNT(sourceip) AS visits " +
                 "FROM user_visits " +
                 "GROUP BY countrycode " +
                 "ORDER BY visits DESC";
@@ -29,17 +31,17 @@ public class UserVisitsStatSparkJob {
         return sparkSession.sql(query).limit(10);
     }
 
-    private Dataset<Row> getDataFrame(SparkSession sparkSession) {
+    private static Dataset<Row> getDataFrame(SparkSession sparkSession) {
         CassandraTableScanJavaRDD<UserVisit> rdd = javaFunctions(sparkSession.sparkContext())
                 .cassandraTable("user_stats", "user_visits", mapRowTo(UserVisit.class));
         return sparkSession.createDataFrame(rdd.rdd(), UserVisit.class);
     }
 
-    private SparkSession initSparkSession() {
+    private static SparkSession initSparkSession() {
         SparkConf conf = new SparkConf(true)
                 .set("spark.cassandra.connection.host", "localhost")
                 .setAppName("Reading data from Cassandra")
-                .setMaster("spark://dima-VirtualBox:<port-of-master>"); //TODO add port of spark master
+                .setMaster("spark://dima-VirtualBox:7077");
         return SparkSession.builder().sparkContext(new SparkContext(conf)).getOrCreate();
     }
 
