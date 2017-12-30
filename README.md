@@ -1,5 +1,5 @@
-# big-data-univer-lab
-Applications that pipeline data through Apache Kafka, Apache Cassandra, and Apache Spark.
+# big-data-lab
+Application that pipelines data through Apache Kafka, Apache Cassandra, and Apache Spark.
 
 There are two main classes:
 
